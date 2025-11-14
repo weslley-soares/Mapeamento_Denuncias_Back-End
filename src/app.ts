@@ -6,8 +6,8 @@ import { denunciasRoutes } from './routes/denunciasRoutes';
 
 export const app = express();
 
+app.use(cors());
 app.use(express.json());
-app.use(cors({ origin: process.env.CORS_ORIGIN }));
 
 app.use('/usuarios', usuariosRoutes);
 app.use('/denuncias', denunciasRoutes);
