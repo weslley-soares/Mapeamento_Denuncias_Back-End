@@ -13,6 +13,9 @@ export const getByProtocolo: RequestHandler = async (req, res) => {
   // Retorna apenas informações públicas
   return res.status(StatusCodes.OK).json({
     titulo: denuncia.titulo,
+    bairro: denuncia.bairro,
+    descricao: denuncia.descricao,
+    endereco: denuncia.endereco,
     latitude: denuncia.latitude,
     longitude: denuncia.longitude,
     status: denuncia.status,

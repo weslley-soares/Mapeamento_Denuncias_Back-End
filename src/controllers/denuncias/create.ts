@@ -11,6 +11,8 @@ export const createDenunciaValidation = validation((getSchema) => ({
     yup.object().shape({
       titulo: yup.string().required(),
       descricao: yup.string().required(),
+      bairro: yup.string().required(),
+      endereco: yup.string().required(),
       latitude: yup.number().required(),
       longitude: yup.number().required(),
     })
@@ -18,12 +20,15 @@ export const createDenunciaValidation = validation((getSchema) => ({
 }));
 
 export const create: RequestHandler = async (req, res) => {
-  const { titulo, descricao, latitude, longitude } = req.body;
+  const { titulo, descricao, bairro, tipo, endereco, latitude, longitude } = req.body;
   const protocolo = generateProtocolo();
 
   const [id] = await db("denuncias").insert({
     titulo,
     descricao,
+    bairro,
+    tipo,
+    endereco,
     latitude,
     longitude,
     protocolo,
@@ -38,7 +43,6 @@ export const create: RequestHandler = async (req, res) => {
     latitude: Number(inserted.latitude),
     longitude: Number(inserted.longitude),
     status: inserted.status,
-    protocolo: inserted.protocolo, // opcional: protocolo não deve ser exibido no mapa público se não quiser
   });
 
   return res.status(StatusCodes.CREATED).json({ id, protocolo });

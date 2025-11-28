@@ -5,9 +5,11 @@ export async function up(knex: Knex) {
     table.increments("id").primary();
     table.string("titulo").notNullable();
     table.text("descricao").notNullable();
+    table.string("bairro").notNullable();
+    table.string("endereco").notNullable;
     table.decimal("latitude", 10, 7).notNullable();
     table.decimal("longitude", 10, 7).notNullable();
-    table.string("status").defaultTo("em andamento"); // 'em andamento', 'parado', 'concluído'
+    table.string("status").defaultTo("em andamento");
     table.string("protocolo").unique().notNullable();
     table.timestamps(true, true);
   });
