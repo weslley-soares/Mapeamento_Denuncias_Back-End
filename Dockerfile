@@ -1,19 +1,21 @@
 FROM node:20-alpine
 
-# Diretório da app
 WORKDIR /app
 
-# Copia package.json e package-lock.json
+# Copia configs de dependências
 COPY package*.json ./
 
-# Instala deps
+# Instala dependências
 RUN npm install --omit=dev
 
-# Copia o resto do código
+# Copia o restante do código
 COPY . .
 
-# Porta que o servidor usa (ajuste se necessário)
+# Compila TypeScript
+RUN npm run build
+
+# Expõe a porta (ajuste se sua API usar outra)
 EXPOSE 8080
 
-# Comando de start (ajuste conforme seu package.json)
-CMD ["npm", "start"]
+# Sobe a API
+CMD ["node", "dist/server.js"]

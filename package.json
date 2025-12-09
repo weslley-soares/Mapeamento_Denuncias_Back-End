@@ -11,7 +11,6 @@
     "test": "jest",
     "dev": "ts-node-dev src/server.ts",
     "production": "node ./build/server.js",
-    "postinstall": "tsc",
     "knex:migrate": "knex --knexfile ./src/server/database/knex/Environment.ts migrate:latest",
     "knex:rollback": "knex --knexfile ./src/server/database/knex/Environment.ts migrate:rollback",
     "knex:rollback-all": "knex --knexfile ./src/server/database/knex/Environment.ts migrate:rollback --all",
