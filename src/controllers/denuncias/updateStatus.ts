@@ -7,7 +7,7 @@ import { validation } from "../../middlewares/validation";
 export const updateStatusValidation = validation((getSchema) => ({
   body: getSchema(
     yup.object().shape({
-      status: yup.string().oneOf(["em andamento", "concluído", "concluído", "Arquivado"]).required(),
+      status: yup.string().oneOf(["em andamento", "pendente", "concluído", "arquivado"]).required(),
     })
   ),
 }));

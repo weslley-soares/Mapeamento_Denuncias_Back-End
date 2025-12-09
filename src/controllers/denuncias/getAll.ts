@@ -16,14 +16,24 @@ export const getAll: RequestHandler = async (req, res) => {
 
     // filtrar por intervalo de datas
     if (dataIn) query.where("data_criacao", ">=", dataIn);
-    if (dataFim) query.where("data", "<=", dataFim);
+    if (dataFim) query.where("data_criacao", "<=", dataFim);
 
     // limite opcional
     if (limit) query.limit(Number(limit));
 
     const denuncias = await query;
 
-    return res.status(StatusCodes.OK).json(denuncias);
+    const formatted = denuncias.map((d) => ({
+      ...d,
+      data_criacao: d.data_criacao
+        ? new Date(d.data_criacao).toLocaleDateString("pt-BR")
+        : null,
+      data: d.data
+        ? new Date(d.data).toLocaleDateString("pt-BR")
+        : null,
+    }));
+
+    return res.status(StatusCodes.OK).json(formatted);
 
   } catch (error) {
     console.error("Erro ao buscar denúncias:", error);

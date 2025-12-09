@@ -5,12 +5,23 @@ import { emitUpdateDenuncia } from "../../sockets";
 
 export const updateLocalizacao: RequestHandler = async (req, res) => {
   const { id } = req.params;
-  const { latitude, longitude } = req.body;
+  const { latitude, longitude, endereco, bairro, estado } = req.body;
 
   const denuncia = await db("denuncias").where({ id }).first();
-  if (!denuncia) return res.status(StatusCodes.NOT_FOUND).json({ message: "Denúncia não encontrada" });
+  if (!denuncia) {
+    return res.status(StatusCodes.NOT_FOUND).json({
+      message: "Denúncia não encontrada",
+    });
+  }
 
-  await db("denuncias").where({ id }).update({ latitude, longitude });
+  await db("denuncias")
+    .where({ id })
+    .update({
+      latitude,
+      longitude,
+      endereco,
+      bairro,
+    });
 
   const updated = await db("denuncias").where({ id }).first();
 
@@ -18,8 +29,12 @@ export const updateLocalizacao: RequestHandler = async (req, res) => {
     id: updated.id,
     latitude: Number(updated.latitude),
     longitude: Number(updated.longitude),
-    status: updated.status,
+    bairro: updated.bairro,
+    endereco: updated.endereco,
   });
 
-  return res.status(StatusCodes.OK).json({ message: "Localização atualizada" });
+  return res.status(StatusCodes.OK).json({
+    message: "Localização atualizada com sucesso",
+    denuncia: updated,
+  });
 };
